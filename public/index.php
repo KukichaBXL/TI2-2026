@@ -63,3 +63,5 @@ require_once URL_BASE . "/model/guestbookModel.php";
 include URL_BASE . "/view/guestbookView.php";
 
 // fermeture de la connexion (bonne pratique)
+
+$db = null;

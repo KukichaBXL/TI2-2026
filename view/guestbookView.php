@@ -11,17 +11,23 @@
     <title>TI2 | Livre d'or</title>
     <link rel="icon" type="image/png" href="img/favicon.png">
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
-<h1>TI2 | Livre d'or</h1>
-<!-- Formulaire d'ajout d'un message -->
-<h2>Ici le formulaire</h2>
-<!-- Si pas de message -->
-<h3>Pas encore de message</h3>
-<!-- Si 1 message -->
-<h3>Il y a 1 message</h3>
-<!-- Si plusieurs messages -->
-<h3>Il y a X messages</h3>
+    <!-- HEADER -->
+    <header class="site-header">
+        <div class="header-logo">
+            <span class="logo-circle">Fm</span>
+        </div>
+        <div class="header-center">
+            <h1>Livre d'Or</h1>
+            <p class="header-subtitle">Laissez une trace de votre passage !</p>
+        </div>
+        <div class="header-actions">
+            <button id="toggle-theme">Mode clair</button>
+            <button class="btn-admin">⚙ Administration</button>
+        </div>
+    </header>
 
 <!-- Pagination (BONUS) -->
 
@@ -39,15 +45,14 @@
         <p>message</p>
     </li>
 </ul>
-etc ...
 <!-- Pagination (BONUS) -->
 <?php
 // À commenter quand on a fini de tester
-echo "<h3>Nos var_dump() pour le débugage</h3>";
-echo '<p>$_POST</p>';
-var_dump($_POST);
-echo '<p>$_GET</p>';
-var_dump($_GET);
+// echo "<h3>Nos var_dump() pour le débugage</h3>";
+// echo '<p>$_POST</p>';
+// var_dump($_POST);
+// echo '<p>$_GET</p>';
+// var_dump($_GET);
 ?>
 
 <script src="js/validation.js"></script>
