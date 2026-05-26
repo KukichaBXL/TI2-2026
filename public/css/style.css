@@ -101,6 +101,7 @@ main {
 .book-illustration {
   width: 140px;
   height: auto;
+  border-radius: 50%;
 }
 
 /* Card formulaire */

@@ -36,7 +36,7 @@
 
             <!-- COLONNE GAUCHE -->
             <aside class="form-side">
-            <img src="img/book.png" alt="Livre d'or illustration" class="book-illustration">
+            <img src="img/dogmeme.jpg" alt="Livre d'or illustration" class="book-illustration">
 
             <div class="form-card">
                 <h2>Votre message</h2>
