@@ -11,7 +11,7 @@
     <title>TI2 | Livre d'or</title>
     <link rel="icon" type="image/png" href="img/favicon.png">
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="js/jquery-3.7.1.min.js"></script>
 </head>
 <body>
     <!-- HEADER -->
@@ -24,7 +24,7 @@
             <p class="header-subtitle">Laissez une trace de votre passage !</p>
         </div>
         <div class="header-actions">
-            <button id="toggle-theme">🌙 Mode clair</button>
+            <button id="toggle-theme">☀️ Mode clair</button>
             <button class="btn-admin">⚙ Administration</button>
         </div>
     </header>
@@ -44,12 +44,15 @@
             <!-- Zone messages JS (erreurs/succès jQuery) -->
             <div id="messages">
                 <?php if (!empty($messageRetour)) : ?>
-                    <p class="<?= $succes ? 'msg-success' : 'msg-error' ?>">
+                    <p class="
+                    <?= $succes ? 'msg-success' : 'msg-error' ?>">
                      <?= $messageRetour ?>
                     </p>
                 <?php endif; ?>
             </div>
 
+
+            <!--  -->
             <form method="POST" action="" id="guestbookForm">
 
             <div class="form-group">
@@ -113,27 +116,24 @@
                     <?php endif; ?>
                 </h2>
 
-            <!-- Pagination -->
-            <?= $paginationHtml ?>
-
             <!-- Liste des messages -->
             <?php foreach ($entries as $entry) : ?>
                 <article class="message-card">
-                <div class="message-card__header">
+                <div class="message-card_header">
 
-                <div class="message-card__info">
+                <div class="message-card_info">
 
-                <span class="message-card__name">
+                <span class="message-card_name">
                 <?= htmlspecialchars($entry['firstname']) ?>
                 <?= htmlspecialchars($entry['lastname']) ?>
                 </span>
 
-                <span class="message-card__email">
+                <span class="message-card_email">
                 <?= htmlspecialchars($entry['usermail']) ?>
                 </span>
                 </div>
                             
-                <span class="message-card__date">
+                <span class="message-card_date">
                 <?php
                 $date = new DateTime($entry['datemessage']);
                 $mois = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
@@ -142,8 +142,8 @@
                 </span>
                 </div>
 
-                <hr class="message-card__separator">
-                <p class="message-card__text"><?= htmlspecialchars($entry['message']) ?></p>
+                <hr class="message-card_separator">
+                <p class="message-card_text"><?= htmlspecialchars($entry['message']) ?></p>
                 </article>
 
                 <?php endforeach; ?>
@@ -159,11 +159,11 @@
 <!-- Pagination (BONUS) -->
 <?php
 // À commenter quand on a fini de tester
-echo "<h3>Nos var_dump() pour le débugage</h3>";
-echo '<p>$_POST</p>';
-var_dump($_POST);
-echo '<p>$_GET</p>';
-var_dump($_GET);
+// echo "<h3>Nos var_dump() pour le débugage</h3>";
+// echo '<p>$_POST</p>';
+// var_dump($_POST);
+// echo '<p>$_GET</p>';
+// var_dump($_GET);
 ?>
 
 <script src="js/validation.js"></script>
