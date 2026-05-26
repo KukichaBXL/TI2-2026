@@ -53,6 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $result = addGuestbook($db, $firstname, $lastname, $usermail, $phone, $postcode, $message);
 
+    $succes = true;
     if ($result) {
         $succes        = true;
         $messageRetour = "Merci pour votre nouveau message !";
