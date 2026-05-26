@@ -169,33 +169,31 @@ $("#guestbookForm").on("submit", function (e) {
 
   // Nom
   if (lastname.length < 2) {
-    errors.push("Le nom doit contenir au moins 2 caractères.");
+    alert("Le nom doit contenir au moins 2 caractères.");
     isValid = false;
   }
 
   // Prénom
   if (firstname.length < 2) {
-    errors.push("Le prénom doit contenir au moins 2 caractères.");
+    alert("Le prénom doit contenir au moins 2 caractères.");
     isValid = false;
   }
 
   // Email
   if (usermail === "") {
-    errors.push("L'adresse e-mail est vide.");
+    alert("L'adresse e-mail est vide.");
     isValid = false;
   } else if (!regexEmail.test(usermail)) {
-    errors.push(
-      "L'adresse e-mail n'est pas valide (ex : john.smith@example.com).",
-    );
+    alert("L'adresse e-mail n'est pas valide (ex : john.smith@example.com).");
     isValid = false;
   }
 
   // Code postal belge
   if (!regexPostcode.test(postcode)) {
-    errors.push("Le code postal doit contenir exactement 4 chiffres.");
+    alert("Le code postal doit contenir exactement 4 chiffres.");
     isValid = false;
   } else if (parseInt(postcode) < 1000 || parseInt(postcode) > 9999) {
-    errors.push("Le code postal belge doit être compris entre 1000 et 9999.");
+    alert("Le code postal belge doit être compris entre 1000 et 9999.");
     isValid = false;
   }
 
