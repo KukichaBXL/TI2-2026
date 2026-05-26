@@ -22,6 +22,15 @@ require_once URL_BASE . "/model/guestbookModel.php";
  * le mode fetch à tableau associatif
  */
 
+try {
+    $dsn = DB_DRIVER . ":host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
+    $db  = new PDO($dsn, DB_LOGIN, DB_PWD);
+    $db->setAttribute(PDO::ATTR_ERRMODE,            PDO::ERRMODE_EXCEPTION);
+    $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Erreur de connexion : " . $e->getMessage());
+}
+
 /*
  * Si le formulaire a été soumis
  */
@@ -33,6 +42,24 @@ require_once URL_BASE . "/model/guestbookModel.php";
 // on redirige vers la page actuelle (ou on affiche un message de succès)
 
 // sinon, on affiche un message d'erreur
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $firstname = $_POST["firstname"] ?? "";
+    $lastname  = $_POST["lastname"]  ?? "";
+    $usermail  = $_POST["usermail"]  ?? "";
+    $phone     = $_POST["phone"]     ?? "";
+    $postcode  = $_POST["postcode"]  ?? "";
+    $message   = $_POST["message"]   ?? "";
+
+    $result = addGuestbook($db, $firstname, $lastname, $usermail, $phone, $postcode, $message);
+
+    if ($result) {
+        $succes        = true;
+        $messageRetour = "Merci pour votre nouveau message !";
+    } else {
+        $messageRetour = "Problème lors de l'envoi du message. Vérifiez vos données.";
+    }
+}
 
 /*
  * On récupère les messages du livre d'or
@@ -53,6 +80,19 @@ require_once URL_BASE . "/model/guestbookModel.php";
 # pour obtenir le $offset pour les messages (calcul)
 
 # on veut récupérer les messages de la page courante
+
+// Bonus pagination : vérification de la page courante avec ctype_digit
+$pageGet  = $_GET[PAGINATION_GET] ?? "1";
+$pageActu = (ctype_digit($pageGet) && (int)$pageGet > 0) ? (int)$pageGet : 1;
+
+// Nombre total de messages
+$nbTotal = getNbTotalGuestbook($db);
+
+// Récupération des messages de la page courante
+$entries = getGuestbookPagination($db, $pageActu, PAGINATION_NB);
+
+// HTML de la pagination
+$paginationHtml = pagination($nbTotal, "./?", PAGINATION_GET, $pageActu, PAGINATION_NB);
 
 /**************************
  * Fin du Bonus Pagination
