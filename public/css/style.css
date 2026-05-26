@@ -6,7 +6,6 @@ body {
     rgb(110, 16, 110) 50%,
     rgb(173, 12, 173) 100%
   );
-  min-height: 100%;
   color: #ffffff;
 }
 
@@ -203,6 +202,7 @@ main {
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
+  margin-top: 10px;
 }
 
 .btn-submit:hover {
@@ -360,4 +360,11 @@ main {
   #toggle-theme {
     display: none;
   }
+}
+
+/* DARK MODE */
+
+body.dark {
+  background: black;
+  color: white;
 }
