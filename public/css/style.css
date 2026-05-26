@@ -1,0 +1,203 @@
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: linear-gradient(
+    135deg,
+    rgba(55, 55, 228, 0.753) 0%,
+    rgb(110, 16, 110) 60%,
+    rgb(173, 12, 173) 100%
+  );
+  min-height: 100%;
+  color: #ffffff;
+}
+
+/*  DARK MODE (toggle jQuery) */
+body.dark-mode {
+  background: #0f0f0f;
+}
+body.light-mode {
+  background: #f8fafc;
+  color: #1e293b;
+}
+
+/* HEADER */
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 16px 24px;
+  margin: 16px;
+}
+
+.logo-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  color: #ffffff;
+}
+
+.header-center {
+  text-align: center;
+  padding: 0 16px;
+}
+
+.header-center h1 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.header-subtitle {
+  font-size: 16px;
+  opacity: 0.7;
+  margin-top: 2px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* BOUTON HEADER */
+
+#toggle-theme,
+.btn-admin {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+#toggle-theme:hover,
+.btn-admin:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* contenu générale */
+
+main {
+  padding: 16px;
+}
+
+.main-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* contenu gauche (vue desktop) */
+
+.form-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.book-illustration {
+  width: 140px;
+  height: auto;
+}
+
+/* Card formulaire */
+.form-card {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 18px;
+  padding: 24px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.form-card h2 {
+  font-size: 18px;
+  margin-bottom: 4px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 16px;
+}
+
+/* erreur JS */
+#messages {
+  margin-bottom: 12px;
+}
+
+.msg-success {
+  color: #4ade80;
+  font-weight: bold;
+  padding: 8px;
+  border-radius: 8px;
+  background: rgba(74, 222, 128, 0.1);
+}
+.msg-error {
+  color: #f87171;
+  font-weight: bold;
+  padding: 8px;
+  border-radius: 8px;
+  background: rgba(248, 113, 113, 0.1);
+}
+
+/* FORMULAIRE */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+  gap: 4px;
+}
+
+.form-group label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: left;
+}
+
+.form-group input,
+.form-group textarea {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 10px 14px;
+  color: #ffffff;
+  font-size: 12px;
+  width: 90%;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.form-group textarea {
+  min-height: 90px;
+}
+
+/* Compteur caractères */
+.char-count {
+  text-align: right;
+  font-size: 12px;
+  opacity: 0.7;
+  margin-bottom: 12px;
+  margin-top: -8px;
+}
+
+.char-count.near-limit {
+  color: #f87171;
+}
