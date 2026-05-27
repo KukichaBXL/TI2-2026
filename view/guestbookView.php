@@ -24,7 +24,7 @@
             <p class="header-subtitle">Laissez une trace de votre passage !</p>
         </div>
         <div class="header-actions">
-            <button id="toggle-theme">☀️ Mode clair</button>
+            <button id="toggle-theme">🌙 Dark Mode</button>
             <button class="btn-admin">⚙ Administration</button>
         </div>
     </header>
@@ -92,7 +92,7 @@
 
             <p class="char-count"><span id="charCount">0</span> / 300 caractères</p>
 
-            <label class="rgpd-label">
+            <label>
             <input type="checkbox" id="rgpd" name="rgpd">
             J'accepte le stockage de mes données personnelles.
             </label>
@@ -149,7 +149,8 @@
                 <?php endforeach; ?>
 
                 <!-- PAGINATION -->
-                <?= $paginationHtml ?>
+                <div class="pagi"><p><?= $paginationHtml ?></p></div>
+                
 
             </section>
         </div>

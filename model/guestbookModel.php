@@ -47,38 +47,26 @@ function addGuestbook(PDO $db,
     $postcodeInt = (int)$postcode;
     if ($postcodeInt < 1000 || $postcodeInt > 9999) return false;
 
-    // Validation téléphone belge : nettoyer puis vérifier format 04xxxxxxxx
-    $phoneCleaned = preg_replace('/[\s\.\-]/', '', $phone); // retire espaces, points, tirets
-    if (str_starts_with($phoneCleaned, '+32')) {
-        $phoneCleaned = '0' . substr($phoneCleaned, 3);
-    } elseif (str_starts_with($phoneCleaned, '0032')) {
-        $phoneCleaned = '0' . substr($phoneCleaned, 4);
-    }
-    if (!preg_match('/^04\d{8}$/', $phoneCleaned)) return false;
+    if (!preg_match('/^(\+32|0032|0)4\d{8}$/', $phone)) return false;
 
-    // requête préparée obligatoire !
-    try {
-        $sql  = "INSERT INTO guestbook (firstname, lastname, usermail, phone, postcode, message)
-                 VALUES (:firstname, :lastname, :usermail, :phone, :postcode, :message)";
-        $stmt = $db->prepare($sql);
-        $stmt->execute([
-            ':firstname' => $firstname,
-            ':lastname'  => $lastname,
-            ':usermail'  => $usermail,
-            ':phone'     => $phoneCleaned,
-            ':postcode'  => $postcode,
-            ':message'   => $message,
-        ]);
-        return true;
-    } catch (PDOException $e) {
-        die("Erreur SQL addGuestbook : " . $e->getMessage());
-    }
+    $prepare = $db->prepare("
+        INSERT INTO guestbook (firstname, lastname, usermail, phone, postcode, message)
+        VALUES (:firstname, :lastname, :usermail, :phone, :postcode, :message)
+    ");
+    $prepare->bindValue(':firstname', $firstname);
+    $prepare->bindValue(':lastname',  $lastname);
+    $prepare->bindValue(':usermail',  $usermail);
+    $prepare->bindValue(':phone',     $phone);
+    $prepare->bindValue(':postcode',  $postcode);
+    $prepare->bindValue(':message',   $message);
+    $retour = $prepare->execute();
+    return $retour;
+}
 
     // si l'insertion a réussi
     // on renvoie true
     // sinon, on renvoie false
 
-}
 
 /***************************
  * Sans le Bonus Pagination
@@ -94,19 +82,10 @@ function addGuestbook(PDO $db,
  */
 function getAllGuestbook(PDO $db): array
 {
-    // try catch
-    // si la requête a réussi,
-    // bonne pratique, fermez le curseur
-    // renvoyer le tableau de(s) message(s)
-    try {
-        $stmt   = $db->query("SELECT * FROM guestbook ORDER BY datemessage DESC");
-        $result = $stmt->fetchAll();
-        $stmt->closeCursor();
-        return $result;
-    } catch (PDOException $e) {
-        die("Erreur SQL getAllGuestbook : " . $e->getMessage());
-    }
-    return [];
+    $stmt   = $db->query("SELECT * FROM guestbook ORDER BY datemessage DESC");
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt->closeCursor();
+    return $result;
 }
 
 /**************************
@@ -121,18 +100,8 @@ function getAllGuestbook(PDO $db): array
  */
 function getNbTotalGuestbook(PDO $db): int
 {
-    try {
-        $stmt = $db->query("SELECT COUNT(*) FROM guestbook");
-        $nb   = (int) $stmt->fetchColumn();
-        $stmt->closeCursor();
-        return $nb;
-    } catch (PDOException $e) {
-        die("Erreur SQL getNbTotalGuestbook : " . $e->getMessage());
-    }
-    // bonne pratique, fermez le curseur,
-    // renvoyez le nombre total de messages
-    return 0;
-
+    $stmt = $db->query("SELECT COUNT(*) AS count FROM guestbook");
+    return (int) $stmt->fetch()['count'];
 }
 // SELECTION de messages dans le livre d'or par ordre de date croissante
 // en lien avec la pagination
@@ -148,27 +117,15 @@ function getNbTotalGuestbook(PDO $db): int
  */
 function getGuestbookPagination(PDO $db, int $pageActu=1, int $limit=5): array
 {
-
-     try {
-        $offset = ($pageActu - 1) * $limit;
-        $sql    = "SELECT * FROM guestbook ORDER BY datemessage DESC LIMIT :limit OFFSET :offset";
-        $stmt   = $db->prepare($sql);
-        $stmt->bindValue(':limit',  $limit,  PDO::PARAM_INT);
-        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-        $stmt->execute();
-        $result = $stmt->fetchAll();
-        $stmt->closeCursor();
-        return $result;
-    } catch (PDOException $e) {
-        die("Erreur SQL getGuestbookPagination : " . $e->getMessage());
-    }
-    // Requête préparée obligatoire !
-    // Le $offset et le $limit sont des entiers, il faut donc les passer
-    // en paramètres de la requête préparée en tant qu'entiers !
-    // si la requête a réussi,
-    // bonne pratique, fermez le curseur
-    // renvoyer le tableau de(s) message(s) (vide si pas de résultats)
-    return [];
+    $offset = ($pageActu - 1) * $limit;
+    $sql    = "SELECT * FROM guestbook ORDER BY datemessage DESC LIMIT :offset, :limit";
+    $stmt   = $db->prepare($sql);
+    $stmt->bindValue("offset", $offset, PDO::PARAM_INT);
+    $stmt->bindValue("limit",  $limit,  PDO::PARAM_INT);
+    $stmt->execute();
+    $result = $stmt->fetchAll();
+    $stmt->closeCursor();
+    return $result;
 }
 
 # Pour afficher la pagination dans la vue
