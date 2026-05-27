@@ -43,13 +43,13 @@ try {
 
 // sinon, on affiche un message d'erreur
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $firstname = $_POST["firstname"] ?? "";
-    $lastname  = $_POST["lastname"]  ?? "";
-    $usermail  = $_POST["usermail"]  ?? "";
-    $phone     = $_POST["phone"]     ?? "";
-    $postcode  = $_POST["postcode"]  ?? "";
-    $message   = $_POST["message"]   ?? "";
+if (isset($_POST['firstname'], $_POST['lastname'], $_POST['usermail'], $_POST['phone'], $_POST['postcode'], $_POST['message'])) {
+    $firstname = $_POST['firstname'];
+    $lastname  = $_POST['lastname'];
+    $usermail  = $_POST['usermail'];
+    $phone     = $_POST['phone'];
+    $postcode  = $_POST['postcode'];
+    $message   = $_POST['message'];
 
     $result = addGuestbook($db, $firstname, $lastname, $usermail, $phone, $postcode, $message);
 
@@ -58,6 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $succes        = true;
         $messageRetour = "Merci pour votre nouveau message !";
     } else {
+        $succes        = false;
         $messageRetour = "Problème lors de l'envoi du message. Vérifiez vos données.";
     }
 }
@@ -83,8 +84,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 # on veut récupérer les messages de la page courante
 
 // Bonus pagination : vérification de la page courante avec ctype_digit
-$pageGet  = $_GET[PAGINATION_GET] ?? "1";
-$pageActu = (ctype_digit($pageGet) && (int)$pageGet > 0) ? (int)$pageGet : 1;
+if (isset($_GET[PAGINATION_GET])) {
+    $pageActu = (int) $_GET[PAGINATION_GET];
+} else {
+    $pageActu = 1;
+}
 
 // Nombre total de messages
 $nbTotal = getNbTotalGuestbook($db);
