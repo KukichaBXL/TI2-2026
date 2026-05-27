@@ -142,21 +142,47 @@
    ========================================================================= */
 
 // DARK MODE
-$("#toggle-theme").on("click", function () {
+
+$("#toggle-theme").click(function () {
   $("body").toggleClass("dark");
+  if ($("body").hasClass("dark")) {
+    $(this).text("☀️ White Mode");
+  } else {
+    $(this).text("🌙 Dark Mode");
+  }
+});
+
+// COMPTEUR CARAC
+$("#message").on("input", function () {
+  const len = $(this).val().length;
+  $("#charCount").text(len);
+  if (len >= 280) {
+    $("#charCount").css("color", "red");
+  } else {
+    $("#charCount").css("color", "");
+  }
+});
+
+// ANIMATION
+
+$(".book-illustration").click(function () {
+  $(".book-illustration")
+    .animate({ rotate: "+=360deg" })
+    .animate({ width: "240px" })
+    .animate({ width: "140px" });
 });
 
 // TEST SOUMISSION
 $("#guestbookForm").on("submit", function (e) {
   e.preventDefault();
 
-  const errors = [];
-  const isValid = true;
+  let errors = [];
+  let isValid = true;
 
   // Regex
   const regexEmail = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,6}$/;
   const regexPostcode = /^\d{4}$/;
-  const regexPhone = /^04\d{8}$/;
+  const regexPhone = /^(\+32|0032|0)4\d{8}$/;
 
   // Récup des valeurs
   const lastname = $("#lastname").val().trim();
@@ -169,47 +195,43 @@ $("#guestbookForm").on("submit", function (e) {
 
   // Nom
   if (lastname.length < 2) {
-    alert("Le nom doit contenir au moins 2 caractères.");
+    errors.push("Le nom doit contenir au moins 2 caractères.");
     isValid = false;
   }
 
   // Prénom
   if (firstname.length < 2) {
-    alert("Le prénom doit contenir au moins 2 caractères.");
+    errors.push("Le prénom doit contenir au moins 2 caractères.");
     isValid = false;
   }
 
   // Email
   if (usermail === "") {
-    alert("L'adresse e-mail est vide.");
+    errors.push("L'adresse e-mail est vide.");
     isValid = false;
   } else if (!regexEmail.test(usermail)) {
-    alert("L'adresse e-mail n'est pas valide (ex : john.smith@example.com).");
+    errors.push(
+      "L'adresse e-mail n'est pas valide (ex : john.smith@example.com).",
+    );
     isValid = false;
   }
 
   // Code postal belge
   if (!regexPostcode.test(postcode)) {
-    alert("Le code postal doit contenir exactement 4 chiffres.");
+    errors.push("Le code postal doit contenir exactement 4 chiffres.");
     isValid = false;
   } else if (parseInt(postcode) < 1000 || parseInt(postcode) > 9999) {
-    alert("Le code postal belge doit être compris entre 1000 et 9999.");
+    errors.push("Le code postal belge doit être compris entre 1000 et 9999.");
     isValid = false;
   }
 
   // Téléphone belge / accepte plusieurs format puis converti
-  const phoneCleaned = phone.replace(/[\s\.\-]/g, ""); // retire espace et les points
-  if (phoneCleaned.startsWith("+32")) {
-    phoneCleaned = "0" + phoneCleaned.substring(3);
-  } else if (phoneCleaned.startsWith("0032")) {
-    phoneCleaned = "0" + phoneCleaned.substring(4);
-  }
   if (phone === "") {
     errors.push("Le numéro de téléphone est vide.");
     isValid = false;
-  } else if (!regexPhone.test(phoneCleaned)) {
+  } else if (!regexPhone.test(phone)) {
     errors.push(
-      "Le téléphone doit être un numéro belge valide (ex : 0470 12 34 56 ou +32 470 12 34 56).",
+      "Le téléphone doit commencer par 04 et contenir 10 chiffres (ex : 0470123456).",
     );
     isValid = false;
   }
