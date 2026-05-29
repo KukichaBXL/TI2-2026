@@ -53,14 +53,25 @@ if (isset($_POST['firstname'], $_POST['lastname'], $_POST['usermail'], $_POST['p
 
     $result = addGuestbook($db, $firstname, $lastname, $usermail, $phone, $postcode, $message);
 
-    $succes = true;
     if ($result) {
-        $succes        = true;
-        $messageRetour = "Merci pour votre nouveau message !";
+        header("Location: ./?merci=1");
+        exit();
     } else {
-        $succes        = false;
-        $messageRetour = "Problème lors de l'envoi du message. Vérifiez vos données.";
+        header("Location: ./?erreur=1");
+        exit();
     }
+}
+
+$succes        = false;
+$messageRetour = "";
+
+if (isset($_GET['merci'])) {
+    $succes        = true;
+    $messageRetour = "Merci pour votre nouveau message !";
+}
+if (isset($_GET['erreur'])) {
+    $succes        = false;
+    $messageRetour = "Problème lors de l'envoi du message. Vérifiez vos données.";
 }
 
 /*

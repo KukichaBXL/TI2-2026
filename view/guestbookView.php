@@ -58,31 +58,31 @@
             <div class="form-group">
                 <label for="lastname">Nom</label>
                 <input type="text" id="lastname" name="lastname" placeholder="Ex: Smith"
-                value="<?= htmlspecialchars($_POST['lastname'] ?? '') ?>">
+                value="<?= htmlspecialchars($_POST['lastname'] ?? '') ?>" require>
             </div>
 
             <div class="form-group">
                 <label for="firstname">Prénom</label>
                 <input type="text" id="firstname" name="firstname" placeholder="Ex: John"
-                value="<?= htmlspecialchars($_POST['firstname'] ?? '') ?>">
+                value="<?= htmlspecialchars($_POST['firstname'] ?? '') ?>" require>
             </div>
 
             <div class="form-group">
                 <label for="usermail">E-mail</label>
                 <input type="email" id="usermail" name="usermail" placeholder="john.smith@example.com"
-                value="<?= htmlspecialchars($_POST['usermail'] ?? '') ?>">
+                value="<?= htmlspecialchars($_POST['usermail'] ?? '') ?>" require>
             </div>
 
             <div class="form-group">
                 <label for="postcode">Code Postal</label>
                 <input type="text" id="postcode" name="postcode" placeholder="Ex: 1000" maxlength="4"
-                value="<?= htmlspecialchars($_POST['postcode'] ?? '') ?>">
+                value="<?= htmlspecialchars($_POST['postcode'] ?? '') ?>" require>
                 </div>
 
             <div class="form-group">
                 <label for="phone">Téléphone</label>
                 <input type="text" id="phone" name="phone" placeholder="Ex: 04 23 45 67 89"
-                value="<?= htmlspecialchars($_POST['phone'] ?? '') ?>">
+                value="<?= htmlspecialchars($_POST['phone'] ?? '') ?>" require>
             </div>
 
             <div class="form-group form-group--textarea">
@@ -143,13 +143,16 @@
                 </div>
 
                 <hr class="message-card_separator">
-                <p class="message-card_text"><?= htmlspecialchars($entry['message']) ?></p>
+                <p class="message-card_text"><?= nl2br(htmlspecialchars($entry['message'])) ?></p>
                 </article>
 
                 <?php endforeach; ?>
 
                 <!-- PAGINATION -->
-                <div class="pagi"><p><?= $paginationHtml ?></p></div>
+                <div class="pagi">
+                    <p>
+                        <a href=""><?= $paginationHtml ?></a>
+                    </p></div>
                 
 
             </section>

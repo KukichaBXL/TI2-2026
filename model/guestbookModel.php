@@ -63,7 +63,7 @@ function addGuestbook(PDO $db,
     return $retour;
 }
 
-    // si l'insertion a réussi
+    // si l'insertion a réussi 
     // on renvoie true
     // sinon, on renvoie false
 
